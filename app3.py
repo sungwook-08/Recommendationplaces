@@ -17,7 +17,7 @@ def get_recommendations(data, region, indoor, budget):
 st.title("강원 청소년 생활 도우미")
 selected_region = st.selectbox("지역을 선택하세요", ["강릉", "속초", "춘천"])
 selected_indoor = st.radio("실내 여부를 선택하세요", ["실내", "실외"])
-selected_budget = st. number_input(“가용 예산을 입력하세요.”, min_value=0)
+selected_budget = st.number_input(“가용 예산을 입력하세요.”, min_value=0)
 
 if st.button("추천 보기"):
     recommendations = get_recommendations(places, selected_region, selected_indoor, selected_budget)
