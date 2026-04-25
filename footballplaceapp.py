@@ -22,7 +22,9 @@ def show_all_places(place_list):
 def find_places(place_list, region, turf_condition, max_fee):
     result = []
     for place in place_list:
-        if (place["지역"] == region and place["잔디상태"] == turf_condition and int(place["시간당 사용료"]) <= max_fee):
+        if (place["지역"] == region and 
+            place["잔디상태"] == turf_condition and 
+            int(place["시간당 사용료"]) <= max_fee):
             result.append(place)
     return result
 
@@ -33,7 +35,7 @@ def add_place(name, region, turf_condition, fee, description):
 
 st.title("강원생활도우미앱")
 
-menu = st.selectbox("기능을 선택하세요", ["전체 보기", "무료 장소 보기", "추천 받기", "장소 추가"])
+menu = st.sidebar.selectbox("기능을 선택하세요", ["전체 보기", "무료 장소 보기", "추천 받기", "장소 추가"])
 
 current_placelist = st.session_state.placelist
 
@@ -50,12 +52,15 @@ elif menu == "무료 장소 보기":
 
 elif menu == "추천 받기":
     region = st.selectbox("지역", ["강릉", "속초", "춘천"])
-    turf_condition = st.selectbox("잔디상태", ["좋음", "안좋음"])
-    max_fee = st.number_input("예산", min_value=0, value=50000)
+    turf = st.selectbox("잔디상태", ["좋음", "안좋음"])
+    budget = st.number_input("예산", min_value=0, value=50000)
     if st.button("추천 받기"):
-        result = find_places(current_placelist, region, turf_condition, max_fee)
-        for p in result:
-            st.write(f"{p['이름']}: {p['한줄설명']}")
+        result = find_places(current_placelist, region, turf, budget)
+        if result:
+            for p in result:
+                st.write(f"{p['이름']}: {p['한줄설명']}")
+        else:
+            st.write("조건에 맞는 장소가 없습니다.")
 
 elif menu == "장소 추가":
     with st.form("add_form"):
