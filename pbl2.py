@@ -1,6 +1,28 @@
 import streamlit as st
 import pandas as pd
 
+def load_data(uploaded_file):
+  df = pd.read_excel(uploaded_file)
+  return df
+
+def show data(df)
+  st.subheader("업로드한 장소 목록")
+  st.dataframe(df)
+  return df
+
+def get_user_input(df)
+   selected_region = st.selectbox("지역 선택", df["지역"].unique())
+   selected_budget = st.number_input("가용예산",  min_value=0, value=10000, step=500)
+  return df
+
+def filter_places(df)
+
+
+
+
+
+
+
 st.title("강원생활도우미 앱 2.0")
 st.write("엑셀 화일을 업로드 할 수 있습니다.")
 
@@ -9,38 +31,45 @@ uploaded_file = st.file_uploader(
   type=["xlsx"]
 )
 
+
 if uploaded_file is not None:
-  df = pd.read_excel(uploaded_file)
+  df = load_data(uploadedd_file)
+  show_data(df)
+
+  
   st.subheader("업로드한 장소 목록")
   st.dataframe(df)
-else:
-  st.info("데이터를 저장한 엑셀(확장자.xlxs)화일을 업로드하세요.")
 
-selected_region = st.selectbox("지역 선택", df["지역"].unique())
-selected_budget = st.number_input("가용예산",  min_value=0, value=10000, step=500)
+  selected_region = st.selectbox("지역 선택", df["지역"].unique())
+  selected_budget = st.number_input("가용예산",  min_value=0, value=10000, step=500)
 
-result = df[
-   (df["지역"] == selected_region) &
+  result = df[
+  (df["지역"] == selected_region) &
    (df["예산"] <= selected_budget)
-]
+  ]
 
-st.subheader("추천 결과 목록")
-if len(result) > 0:
-  st.dataframe(result)
-else:
-  st.warning("조건에 맞는 장소가 없습니다.")
+  st.subheader("추천 결과 목록")
+  if len(result) > 0:
+    st.dataframe(result)
+  else:
+    st.warning("조건에 맞는 장소가 없습니다.")
 
-region_count = df["지역"].value_counts()
+  region_count = df["지역"].value_counts()
+  
+  st.subheader("지역별 장소 개수")
+  st.bar_chart(region_count)
+  
+  type_count = df["유형"].value_counts()
+  
+  st.subheader("유형별 장소 개수")
+  st.bar_chart(type_count)
 
-st.subheader("지역별 장소 개수")
-st.bar_chart(region_count)
+  avg_score = df.groupby("지역")["평점"].mean()
 
-type_count = df["유형"].value_counts()
+  st.subheader("지역별 평균 평점")
+  st.bar_chart(avg_score)
 
-st.subheader("유형별 장소 개수")
-st.bar_chart(type_count)
+  else
 
-avg_score = df.groupby("지역")["평점"].mean()
 
-st.subheader("지역별 평균 평점")
-st.bar_chart(avg_score)
+
