@@ -1,3 +1,3 @@
-def load_data(uploaded file) :
-  df = pd.read_excel(uploaded file)
+def load_data(uploaded_file) :
+  df = pd.read_excel(uploaded_file)
     return df
