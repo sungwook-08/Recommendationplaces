@@ -7,5 +7,7 @@ def showdata(df):
   st.dataframe(df)
   return df
 
-def get_user_input(df)
-  selected_regjion = st.selectbox(
+def get_user_input(df):
+  selected_region = st.selectbox("지역 선택", df["지역"].unique()) 
+  selected_budget = st.number_input("가용예산",  min_value=0, value=10000, step=500)
+  return df
