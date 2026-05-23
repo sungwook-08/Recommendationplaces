@@ -22,7 +22,8 @@ def get_user_input(df):
      selected_budget = st.number_input("사용 가능한 예산을 입력하세요", min_value=0, value=10000, step=1000)
     result = df[
         (df["지역"] == selected_region) &
-        (df["예산"] <= selected_budget)    ]
+        (df["예산"] <= selected_budget)    
+    ]
     return result
 
 def show_filter_places(result):
@@ -32,24 +33,28 @@ def show_filter_places(result):
         st.warning("조건에 맞는 장소가 없습니다.")
     region_count = df["지역"].value_counts()
 
-def count_chart(key):
-    key_count = df[key].value_counts()
-    st.subheader(key+"별 장소 개수")
-    st.bar_chart(key_count)
+def count_chart(df, key):
+    if key in df.columns:
+         key_count = df[key].value_counts()
+         st.subheader(key+"별 장소 개수")
+         st.bar_chart(key_count)
 
-def average_chart(group, num):
-    avg_score = df.groupby(group)[num].mean()
-    st.subheader(group+"별 평균"+num)
-    st.bar_chart(avg_score)
+def average_chart(df, group, num):
+    if group in df.columns and num in df.columns:
+        avg_score = df.groupby(group)[num].mean()
+        st.subheader(group + "별 평균" + num)
+        st.bar_chart(avg_score)
 
 st.title("강생도 2.0")
 st.write("엑셀 파일을 업로드하면 장소 데이터를 확인할 수 있습니다.")
 
 df = load_file()
-if df is not None:
-    print_table(df,"업로드한 장소 데이더")
-    result = get_user_input()
-    show_filter_places(result)
-    count_chart("지역")
-    count_chart("유형")
-    average_chart("지역","평점")
+
+ menu = st.sidebar.radio(
+     "원하는 기능을 선택해주세요.",
+     ["전체 장소 조회하기", "장소 추천"]
+ )
+
+if menu == "전체 장소 조회하기"
+ 
+
