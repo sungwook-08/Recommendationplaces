@@ -8,6 +8,7 @@ def load_file():
         return df
     else:
         st.info("엑셀 파일을 업로드하면 데이터가 표시됩니다")
+        return None
 
 def print_table(table, table_name):
     st.subheader(table_name)
